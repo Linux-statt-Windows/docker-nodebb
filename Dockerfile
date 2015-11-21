@@ -7,10 +7,6 @@ FROM centos:centos7
 MAINTAINER Linux statt Windows, Neotrace <Daniel.Jankowski@rub.de>, Niklas Heer <niklas.heer@gmail.com>
 
 ################### Installation #####################
-
-# nodejs 0.12.x
-RUN curl -sL https://rpm.nodesource.com/setup_0.12 | bash -
-
 # - Install basic packages (e.g. python-setuptools is required to have python's easy_install)
 # - Install net-tools, small package with basic networking tools (e.g. netstat)
 # - Install inotify, needed to automate daemon restarts after config file changes
@@ -18,7 +14,6 @@ RUN curl -sL https://rpm.nodesource.com/setup_0.12 | bash -
 # - Install yum-utils so we have yum-config-manager tool available
 # - Install tar wget git ImageMagick openssl openssl-devel vim, as main tools needed
 # - Install "Development Tools" because we need them to build stuff
-# - Install nodejs
 # - Install redis
 # - Install nginx
 # - Install SSH
@@ -27,13 +22,16 @@ RUN \
   yum install -y epel-release && \
   yum install -y net-tools python-setuptools hostname inotify-tools yum-utils tar wget git ImageMagick openssl openssl-devel vim&& \
   yum -y groupinstall "Development Tools"&& \
-  yum -y install nodejs&& \
   yum -y install redis&& \
   yum -y install nginx&& \
   yum -y install openssh-server&& \
   yum clean all && \
 
   easy_install supervisor
+
+# INSTALL - nodejs 0.12.7
+RUN wget https://rpm.nodesource.com/pub_0.12/el/7/x86_64/nodejs-0.12.7-1nodesource.el7.centos.x86_64.rpm -O /tmp/nodejs-0.12.7.rpm
+RUN rpm -Uvh /tmp/nodejs-0.12.7.rpm
 
 # INSTALL - global nodejs modules
 RUN npm -g install node-gyp
