@@ -35,9 +35,9 @@ RUN \
 
   easy_install supervisor
 
-# INSTALL - nodejs needed modules
+# INSTALL - global nodejs modules
 RUN npm -g install node-gyp
-RUN npm -g install npm^3.x
+RUN npm -g install npm
 
 ################### Install NodeBB #####################
 # Create a nodebb volume
@@ -46,7 +46,7 @@ RUN npm -g install npm^3.x
 # Define a working directory
 WORKDIR /var/www/nodebb
 
-RUN mkdir -p /var/www; git clone https://github.com/Linux-statt-Windows/nodebb.git  /var/www/nodebb
+RUN mkdir -p /var/www; git clone -b fix-lwip https://github.com/Linux-statt-Windows/nodebb.git  /var/www/nodebb
 RUN cd /var/www/nodebb; git submodule init; git submodule update
 
 # install nodejs sub-modules
