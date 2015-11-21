@@ -7,6 +7,10 @@ FROM centos:centos7
 MAINTAINER Linux statt Windows, Neotrace <Daniel.Jankowski@rub.de>, Niklas Heer <niklas.heer@gmail.com>
 
 ################### Installation #####################
+
+# nodejs 4.x
+RUN curl -sL https://rpm.nodesource.com/setup_4.x | bash -
+
 # - Install basic packages (e.g. python-setuptools is required to have python's easy_install)
 # - Install net-tools, small package with basic networking tools (e.g. netstat)
 # - Install inotify, needed to automate daemon restarts after config file changes
@@ -14,30 +18,26 @@ MAINTAINER Linux statt Windows, Neotrace <Daniel.Jankowski@rub.de>, Niklas Heer 
 # - Install yum-utils so we have yum-config-manager tool available
 # - Install tar wget git ImageMagick openssl openssl-devel vim, as main tools needed
 # - Install "Development Tools" because we need them to build stuff
+# - Install nodejs
+# - Install redis
+# - Install nginx
+# - Install SSH
 RUN \
   yum update -y && \
   yum install -y epel-release && \
   yum install -y net-tools python-setuptools hostname inotify-tools yum-utils tar wget git ImageMagick openssl openssl-devel vim&& \
   yum -y groupinstall "Development Tools"&& \
+  yum -y install nodejs&& \
+  yum -y install redis&& \
+  yum -y install nginx&& \
+  yum -y install openssh-server&& \
   yum clean all && \
 
   easy_install supervisor
 
-# INSTALL - nodejs 4.x
-RUN curl -sL https://rpm.nodesource.com/setup_4.x | bash -
-RUN yum -y install nodejs npm
+# INSTALL - nodejs needed modules
 RUN npm -g install node-gyp
-# RUN npm -g install npm^3.x
-
-# INSTALL - redis
-RUN yum -y install epel-release ;  yum clean all
-RUN yum -y install redis
-
-# INSTALL - nginx
-RUN yum -y install nginx
-
-# INSTALL -  openssh-server
-RUN yum -y install openssh-server
+RUN npm -g install npm^3.x
 
 ################### Install NodeBB #####################
 # Create a nodebb volume
@@ -50,8 +50,7 @@ RUN mkdir -p /var/www; git clone https://github.com/Linux-statt-Windows/nodebb.g
 RUN cd /var/www/nodebb; git submodule init; git submodule update
 
 # install nodejs sub-modules
-RUN npm install —production
-
+RUN npm install --production
 
 ################## Start options ####################
 
@@ -68,5 +67,3 @@ ENTRYPOINT ["/config/bootstrap.sh"]
 
 # start nodebb
 CMD [ "node", "app.js" ]
-
-
