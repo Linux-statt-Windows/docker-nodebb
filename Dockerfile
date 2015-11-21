@@ -9,7 +9,7 @@ MAINTAINER Linux statt Windows, Neotrace <Daniel.Jankowski@rub.de>, Niklas Heer 
 ################### Installation #####################
 
 # nodejs 4.x
-RUN curl -sL https://rpm.nodesource.com/setup_4.x | bash -
+RUN curl -sL https://rpm.nodesource.com/setup_0.12 | bash -
 
 # - Install basic packages (e.g. python-setuptools is required to have python's easy_install)
 # - Install net-tools, small package with basic networking tools (e.g. netstat)
@@ -46,7 +46,7 @@ RUN npm -g install npm
 # Define a working directory
 WORKDIR /var/www/nodebb
 
-RUN mkdir -p /var/www; git clone -b fix-lwip https://github.com/Linux-statt-Windows/nodebb.git  /var/www/nodebb
+RUN mkdir -p /var/www; git clone https://github.com/Linux-statt-Windows/nodebb.git  /var/www/nodebb
 RUN cd /var/www/nodebb; git submodule init; git submodule update
 
 # install nodejs sub-modules
