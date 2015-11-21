@@ -44,11 +44,14 @@ RUN npm -g install npm
 # Define a working directory
 WORKDIR /var/www/nodebb
 
+# Clone NodeBB
 RUN mkdir -p /var/www; git clone https://github.com/Linux-statt-Windows/nodebb.git  /var/www/nodebb
-RUN cd /var/www/nodebb; git submodule init; git submodule update
-
-# install nodejs sub-modules
-RUN npm install --production
+# Install NodeBB packages
+RUN cd /var/www/nodebb; npm install --production
+# Init and update submodules
+RUN git submodule init; git submodule update
+# Run npm install for ever submodule
+RUN git submodule foreach npm install
 
 ################## Start options ####################
 
