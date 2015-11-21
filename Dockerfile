@@ -8,7 +8,7 @@ MAINTAINER Linux statt Windows, Neotrace <Daniel.Jankowski@rub.de>, Niklas Heer 
 
 ################### Installation #####################
 
-# nodejs 4.x
+# nodejs 0.12.x
 RUN curl -sL https://rpm.nodesource.com/setup_0.12 | bash -
 
 # - Install basic packages (e.g. python-setuptools is required to have python's easy_install)
