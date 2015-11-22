@@ -48,6 +48,8 @@ WORKDIR /var/www/nodebb
 RUN mkdir -p /var/www; git clone https://github.com/Linux-statt-Windows/nodebb.git  /var/www/nodebb
 # Install NodeBB packages
 RUN cd /var/www/nodebb; npm install --production
+# Remove nodebb-theme-persona
+RUN rm -rf /var/www/nodebb/node_modules/nodebb-theme-persona
 # Init and update submodules
 RUN git submodule init; git submodule update
 # Run npm install for ever submodule
