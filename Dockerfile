@@ -52,7 +52,7 @@ RUN cd /var/www/nodebb; npm install --production
 RUN rm -rf /var/www/nodebb/node_modules/nodebb-theme-persona
 # Init and update submodules
 RUN git submodule init; git submodule update
-# Run npm install for ever submodule
+# Run npm install for every submodule
 RUN git submodule foreach npm install
 
 ################## Start options ####################
